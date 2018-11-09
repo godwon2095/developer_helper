@@ -7,9 +7,6 @@
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
 
-![Kiku](images/image_change.gif)
-![hello](images/example.jpg)
-
 ![image](https://user-images.githubusercontent.com/37841168/48248476-d2c28680-e43a-11e8-9300-462373a33582.png)
 
 어드민 페이지에서 특정 모델 가령 유저리스트를 10명씩 보기 30명씩 보기 모두 보기 등등을 구현하는 방법입니다.
