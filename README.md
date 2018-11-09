@@ -7,6 +7,9 @@
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
 
+![Kiku](images/image_change.gif)
+![hello](images/example.jpg)
+
 ![image](https://user-images.githubusercontent.com/37841168/48248476-d2c28680-e43a-11e8-9300-462373a33582.png)
 
 어드민 페이지에서 특정 모델 가령 유저리스트를 10명씩 보기 30명씩 보기 모두 보기 등등을 구현하는 방법입니다.
@@ -65,7 +68,7 @@ end
 
 액티브 어드민에서 특정 모델의 특정 리스트 만을 액셀 형태로 다운받고싶다면 간단하게 구현 할 수 있습니다.
 
-액티브 어드민에서는 이를 주소로 처리하는데요 
+액티브 어드민에서는 이를 주소로 처리하는데요
 
 ~~~c
   batch_action "download" do |ids|
@@ -129,7 +132,7 @@ $(document).ready(function () {
 
   $('.batch_action[data-action=city]').on("click", function(){
   // 배치액션을 눌러야 내부 요소들을 그릴 수 있기 때문에 배치액션을 누르는 함수로 감싸줍니다.
-  
+
     $('[name="city"]').on("change", function(){
       var select = $('[name="city"] option:selected').val();
       switch(select){
