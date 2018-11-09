@@ -1,8 +1,10 @@
 # 인썸니아 개발 헬퍼
 
-* <a href="#list1">이미지 즉각 업로드</a>
+* <a href="#image_direct_upload">이미지 즉각 업로드</a>
 
-##이미지 즉각 업로드
+<h2 id="image_direct_upload">이미지 즉각 업로드</h2>
+
+![alt text](/assets/images/imgae_change.gif )
 
 이미지를업로드 할 때 사진을 올렸으면, 즉각적으로 이미지가 바뀌게 하는 js 코드입니다.
 
