@@ -6,6 +6,7 @@
 * <a href="#image_direct_upload">이미지 즉각 업로드</a>
 ---
 <h2>위의 사항은 플젝에 전부 구현해 놓은 상태이니 클론해서 보셔도 됩니다</h2>
+
 ---
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
