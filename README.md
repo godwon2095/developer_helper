@@ -266,7 +266,7 @@ https://github.com/godwon2095/insomenia_developer_helper/blob/master/app/assets/
 //= require imageviewer
 ~~~
 ~~~c
-import 'imageviewer';
+@import 'imageviewer';
 ~~~
 
 여기까지 완료했다면 아래의 js 코드만 이용하면 바로 이미지 뷰어를 사용하실 수 있습니다!
