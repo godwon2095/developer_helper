@@ -4,6 +4,7 @@
 
 <h2 id="image_direct_upload">이미지 즉각 업로드</h2>
 
+[Alt text](/image_change.gif)
 <img src="/image_change.gif" width="600" height="400"></img>
 
 이미지를업로드 할 때 사진을 올렸으면, 즉각적으로 이미지가 바뀌게 하는 js 코드입니다.
