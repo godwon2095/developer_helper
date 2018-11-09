@@ -205,7 +205,7 @@ $('[name="city"]').change(function () {
 });
 ~~~
 
-![image](app/assets/images/city_state2.gif)
+![image](app/assets/images/city_state_2.gif)
 
 이렇게 경우에 따라 js로 city state를 완벽하게 구현 할 수 있습니다.
 
@@ -217,7 +217,7 @@ $('[name="city"]').change(function () {
 
 <h2 id="image_direct_upload">이미지 즉각 업로드</h2>
 
-![image](app/assets/images/image_direct_upload.gif)
+![image](app/assets/images/image_direct_change.gif)
 
 이미지를업로드 할 때 사진을 올렸으면, 즉각적으로 이미지가 바뀌게 하는 js 코드입니다.
 
