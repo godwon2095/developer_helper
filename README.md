@@ -4,6 +4,7 @@
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
 * <a href="#js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</a>
 * <a href="#image_direct_upload">이미지 즉각 업로드</a>
+* <a href="#imageviewer">js로 이미지 뷰어 (확대 가능)</a>
 ---
 <h2>위의 사항은 플젝에 전부 구현해 놓은 상태이니 클론해서 보셔도 됩니다</h2>
 
@@ -244,3 +245,38 @@ $('[name="city"]').change(function () {
   });
 ~~~
 이후 change 함수로 this를 인수로 넘겨줍니다. 그럼 파일을 업로드 할 때마다 즉각적으로 이미지가 바뀌게 됩니다.
+
+---
+
+<h2 id="imageviewer">js로 이미지 뷰어 구현하기 (확대가능)</h2>
+
+![image](app/assets/images/imageviewer.gif)
+
+이미지 뷰어를 구현하고, 확대기능 까지 만드는 일은 사실상 매우 어려운 작업입니다.
+
+js 오픈소스를 이용해서 이를 매우 간단하고 빠르게 해결 할 수 있습니다.
+
+먼저 코드 복붙은 해주셔야합니다. imageviewer.js 와 imageviewer.scss 파일을 생성해주고 아래의 코드들을 각각 복붙해줍니다.
+https://github.com/godwon2095/insomenia_developer_helper/blob/master/app/assets/javascripts/imageviewer.js
+https://github.com/godwon2095/insomenia_developer_helper/blob/master/app/assets/stylesheets/imageviewer.scss
+
+코드를 붙여 넣었다면 require 과 import를 해줍니다.
+
+~~~c
+//= require imageviewer
+~~~
+~~~c
+import 'imageviewer';
+~~~
+
+여기까지 완료했다면 아래의 js 코드만 이용하면 바로 이미지 뷰어를 사용하실 수 있습니다!
+
+~~~c
+$(function () {
+    var viewer = ImageViewer();
+    $('img').click(function () {
+        var imgSrc = this.src 
+        viewer.show(imgSrc);
+    });
+});
+~~~
