@@ -4,11 +4,12 @@
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
 * <a href="#js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</a>
 * <a href="#image_direct_upload">이미지 즉각 업로드</a>
+---
+<h2>위의 사항은 플젝에 전부 구현해 놓은 상태이니 클론해서 보셔도 됩니다</h2>
+
+---
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
-
-![Kiku](images/image_change.gif)
-![hello](images/example.jpg)
 
 ![image](https://user-images.githubusercontent.com/37841168/48248476-d2c28680-e43a-11e8-9300-462373a33582.png)
 
@@ -119,7 +120,7 @@ var city3 = [
 function call_state_by_city(city_ary){
   $('[name="state"]').empty();
   $('[name="state"]').append("<option>--Select--</option>");
-  $(arr).each(function(i){
+  $(city_ary).each(function(i){
     $('[name="state"]').append("<option value=\""+city_ary[i].value+"\">"+city_ary[i].display+"</option>")
   });
 }
@@ -137,15 +138,15 @@ $(document).ready(function () {
       var select = $('[name="city"] option:selected').val();
       switch(select){
         case "city1":
-          change_campaign_state(city1);
+          call_state_by_city(city1);
         break;
 
         case "city2":
-          change_campaign_state(city2);
+          call_state_by_city(city2);
         break;
 
         case "city3":
-          change_campaign_state(city3);
+          call_state_by_city(city3);
         break;
 
         default:
