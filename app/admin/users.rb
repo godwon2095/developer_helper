@@ -3,6 +3,16 @@ ActiveAdmin.register User do
     redirect_to "/admin/users.csv?q[id_in][]=" + ids.join("&q[id_in][]=")
   end
 
+  batch_action "city state", form: {
+    city: City.all.pluck(:city_name, :id).insert(0, ["Please select the city",0]),
+    state: ["----"]
+  }
+
+  batch_action "city state2", form: {
+    city: City.all.pluck(:city_name, :id).insert(0, ["Please select the city",0]),
+    state: ["----"]
+  }
+
   index do
     selectable_column
     id_column
