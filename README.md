@@ -116,7 +116,7 @@ var city3 = [
 function call_state_by_city(city_ary){
   $('[name="state"]').empty();
   $('[name="state"]').append("<option>--Select--</option>");
-  $(arr).each(function(i){
+  $(city_ary).each(function(i){
     $('[name="state"]').append("<option value=\""+city_ary[i].value+"\">"+city_ary[i].display+"</option>")
   });
 }
@@ -134,15 +134,15 @@ $(document).ready(function () {
       var select = $('[name="city"] option:selected').val();
       switch(select){
         case "city1":
-          change_campaign_state(city1);
+          call_state_by_city(city1);
         break;
 
         case "city2":
-          change_campaign_state(city2);
+          call_state_by_city(city2);
         break;
 
         case "city3":
-          change_campaign_state(city3);
+          call_state_by_city(city3);
         break;
 
         default:
