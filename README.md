@@ -4,6 +4,9 @@
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
 * <a href="#js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</a>
 * <a href="#image_direct_upload">이미지 즉각 업로드</a>
+---
+<h2>위의 사항은 플젝에 전부 구현해 놓은 상태이니 클론해서 보셔도 됩니다</h2>
+---
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
 
