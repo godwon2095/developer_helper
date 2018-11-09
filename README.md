@@ -1,6 +1,6 @@
 # 인썸니아 개발 헬퍼
 
-<a href="#list1">이미지 </a>
+<a href="#list1">이미지 즉각 </a>
 
 Things you may want to cover:
 
