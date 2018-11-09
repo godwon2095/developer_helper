@@ -85,6 +85,7 @@ end
 
 
 <h2 id="js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</h2>
+
 ![image](app/assets/images/city_state.gif)
 
 액티브 어드민의 배치액션의 폼같이 직접 내부 요소들은 컨트롤하기 어려운 경우 이를 전부 js로 구현해야 합니다.
