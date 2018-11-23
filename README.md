@@ -288,28 +288,28 @@ $(function () {
 
 ![image](https://user-images.githubusercontent.com/37841168/48925715-4a4be780-ef0a-11e8-9c69-b95e5ab9b864.png)
 
-액티브 어드민에서는 필터는 ransack 을 이용해서 구현했는데요. 그래서 ransack에 대한 이해가 있다면, <br>
+액티브 어드민에서는 필터는 ransack 을 이용해서 구현했는데요. 그래서 ransack에 대한 이해가 있다면,  
 
-액티브 어드민에서 쉽게 복잡한 필터기능을 구현할 수 있습니다.
+액티브 어드민에서 쉽게 복잡한 필터기능을 구현할 수 있습니다.  
 
-먼저 ransack 에 대한 설명입니다. https://github.com/activerecord-hackery/ransack
+먼저 ransack 에 대한 설명입니다. https://github.com/activerecord-hackery/ransack  
 
-정리가 잘 되어있지만 간단하게 ransack을 어떻게 사용하는지 적어보겠습니다.
+정리가 잘 되어있지만 간단하게 ransack을 어떻게 사용하는지 적어보겠습니다.  
 
-예를 들어 User 모델이 has_many :supports 이고, Support 모델에 state (integer) 컬럼이 있다고 합시다.
+예를 들어 User 모델이 has_many :supports 이고, Support 모델에 state (integer) 컬럼이 있다고 합시다.  
 
-ransack을 사용하실 때에는 항상 rails console 에서 결과를 보고 사용하시는 것이 좋습니다.
+ransack을 사용하실 때에는 항상 rails console 에서 결과를 보고 사용하시는 것이 좋습니다.  
 
-> User.ransack(supports_state_eq: 0).result
+> User.ransack(supports_state_eq: 0).result  
 
-이런식으로 명령어를 사용하게 되면, User model 에서 supports 의 state가 0인 User 객체들을 뽑아올 수 있게 됩니다.
+이런식으로 명령어를 사용하게 되면, User model 에서 supports 의 state가 0인 User 객체들을 뽑아올 수 있게 됩니다.  
 
-여기서 eq 는 보통 integer 타입에서 사용하게 되는데요, 일치함을 첵킹하게 됩니다. 
+여기서 eq 는 보통 integer 타입에서 사용하게 되는데요, 일치함을 첵킹하게 됩니다.   
 
-이 와 비슷하게 cont 는 보통 string 타입에서 유사성을 검사합니다.
+이 와 비슷하게 cont 는 보통 string 타입에서 유사성을 검사합니다.  
 
-그래서 실제 액티브 어드민에서 핅터를 구현 할 때는 아래와 같이 사용하시면 됩니다.
+그래서 실제 액티브 어드민에서 핅터를 구현 할 때는 아래와 같이 사용하시면 됩니다.  
 
-filter :supports_state_eq, label: '지원 상태', as: :select, collection: state_collection
+filter :supports_state_eq, label: '지원 상태', as: :select, collection: state_collection  
 
-이렇게 하면 복잡한 구조로 설계되어 있어도 간단하게 필터기능을 구현 할 수 있습니다.
+이렇게 하면 복잡한 구조로 설계되어 있어도 간단하게 필터기능을 구현 할 수 있습니다.  
