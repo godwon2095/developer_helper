@@ -6,6 +6,8 @@
 * <a href="#image_direct_upload">이미지 즉각 업로드</a>
 * <a href="#imageviewer">js로 이미지 뷰어 (확대 가능)</a>
 * <a href="#ransack">액티브 어드민에서 ransack 으로 필터 자유자재로 구현하기</a>
+* <a href="#tinymce">액티브 어드민에서 tinymce (wysiwyg editor) 이미지 업로드 까지 구현하기</a>
+
 ---
 <h2>위의 사항은 플젝에 전부 구현해 놓은 상태이니 클론해서 보셔도 됩니다</h2>
 
@@ -317,3 +319,92 @@ filter :supports_state_eq, label: '지원 상태', as: :select, collection: stat
 ~~~
 
 이렇게 하면 복잡한 구조로 설계되어 있어도 간단하게 필터기능을 구현 할 수 있습니다.  
+
+---
+
+<h2 id="tinymce">액티브 어드민에서 tinymce 이미지 업로드 까지 구현하기</h2>
+
+![image](https://user-images.githubusercontent.com/37841168/48926736-f0e8b600-ef13-11e8-854e-19c38fd6cbc3.png)
+
+어드민에서 wysiwyg editor 를 삽입하는 것은 간단하게 구현할 수 있습니다.
+
+먼저 젬을 설치해 줍니다
+
+~~~c
+gem 'tinymce-rails'
+gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
+~~~
+
+bundle 도 진행 해줍니다
+
+~~~c
+bundle install
+~~~
+
+이후에 active_admin.js 에 아래와 같이 코드를 추가해줍니다.
+
+~~~c
+//= require tinymce
+
+TinyMCERails.configuration.default = {
+  selector: "textarea.tinymce",
+  toolbar: ["styleselect | bold italic | undo redo","link | uploadimage"],
+  plugins: "link,uploadimage"
+};
+TinyMCERails.initialize('default', {
+});
+~~~
+
+이후에 어드민쪽 페이지에 아래처럼 코드를 추가해줍니다.
+
+~~~c
+f.input :content, input_html: {class: "tinymce"}
+~~~
+
+이렇게 하면 tinymce 에디터를 띄우는 것에 성공하실 수 있을 겁니다. 
+![image](https://user-images.githubusercontent.com/37841168/48926616-1923e500-ef13-11e8-9535-23abc6468d63.png)
+
+하지만 이 상태에서는 이미지 업로드 기능이 정상적으로 작동하지 않을 겁니다.
+
+일단 해당 처리를 해줄 컨트롤러를 만들어줍니다.
+
+>rails g controller tinymce_assets
+
+이후에 컨트롤러에서 create액션을 사용할 주소를 만들어줍니다.
+
+~~~c
+post '/tinymce_assets' => 'tinymce_assets#create'
+~~~
+
+이후에는 tinymce_assets controller 에서
+~~~c
+class TinymceAssetsController < ApplicationController
+  def create
+    file = params[:file]
+    uploader = UserImageUploader.new #업로더라는 이름으로 좀업로더 객체 생성
+
+    uploader.store!(file)
+    render json: {
+      image: {
+        url: uploader.url
+      }
+    }, content_type: "text/html"
+  end
+end
+~~~
+이렇게 하면 이미지를 json 타입으로 에디터에 보내주고 처리해서 바로 띄울 수 있어야 하는데 한가지 오류가 뜰 것 입니다.
+
+model 의 id가 없다는 오류일텐데요 이부분은 uploader 파일에 들어가서 기존의
+~~~c
+def store_dir
+"uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+end
+~~~
+부분의 model.id 부분을 지워주면 됩니다.
+~~~c
+def store_dir
+"uploads/#{model.class.to_s.underscore}/#{mounted_as}"
+end
+~~~
+
+이렇게 하시면 완벽하게 액티브어드민에 tinymce editor를 삽입 할 수 있습니다.
