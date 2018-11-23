@@ -310,6 +310,8 @@ ransack을 사용하실 때에는 항상 rails console 에서 결과를 보고 �
 
 그래서 실제 액티브 어드민에서 핅터를 구현 할 때는 아래와 같이 사용하시면 됩니다.  
 
+~~~c
 filter :supports_state_eq, label: '지원 상태', as: :select, collection: state_collection  
+~~~
 
 이렇게 하면 복잡한 구조로 설계되어 있어도 간단하게 필터기능을 구현 할 수 있습니다.  
