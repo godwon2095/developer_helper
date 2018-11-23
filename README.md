@@ -288,7 +288,9 @@ $(function () {
 
 ![image](https://user-images.githubusercontent.com/37841168/48925715-4a4be780-ef0a-11e8-9c69-b95e5ab9b864.png)
 
-액티브 어드민에서는 필터는 ransack 을 이용해서 구현했는데요. 그래서 ransack에 대한 이해가 있다면, 액티브 어드민에서 쉽게 복잡한 필터기능을 구현할 수 있습니다.
+액티브 어드민에서는 필터는 ransack 을 이용해서 구현했는데요. 그래서 ransack에 대한 이해가 있다면, <br>
+
+액티브 어드민에서 쉽게 복잡한 필터기능을 구현할 수 있습니다.
 
 먼저 ransack 에 대한 설명입니다. https://github.com/activerecord-hackery/ransack
 
