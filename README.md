@@ -1,5 +1,6 @@
 # 레일즈 개발 및 액티브어드민 개발 헬퍼
 
+* <a href="#email_confirm_code">이메일 인증코드로 회원가입 구현하기</a>
 * <a href="#active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</a>
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
 * <a href="#js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</a>
@@ -7,6 +8,10 @@
 * <a href="#imageviewer">js로 이미지 뷰어 (확대 가능)</a>
 * <a href="#ransack">액티브 어드민에서 ransack 으로 필터 자유자재로 구현하기</a>
 * <a href="#tinymce">액티브 어드민에서 tinymce (wysiwyg editor) 이미지 업로드 까지 구현하기</a>
+
+---
+
+<h2 id="email_confirm_code">이메일 인증코드로 회원가입 구현하기</h2>
 
 ---
 
