@@ -13,6 +13,144 @@
 
 <h2 id="email_confirm_code">이메일 인증코드로 회원가입 구현하기</h2>
 
+이메일 인증에 있어서, 특정 인증코드를 발송해주고 해당번호를 입력해야만 정상정으로 서비스를 이용할 수 있게하는 기능입니다.
+
+일단 devise에 이메일 인증 기능은 구현되어있다는 가정하에 
+
+먼저 간단하게 이메일 인증하기 버튼과 인증번호를 받을 수 있는 폼을 만들어 줍니다.
+
+~~~c
+<%= f.email_field :email %>
+
+<a id="confirm_code" href="#" class="button">이메일 인증하기</a>
+
+<input type="text" id="user_code" value="" placeholder="인증번호">
+~~~
+
+그리고 인증코드를 관리해줄 테이블을 생성해주도록합니다.
+
+> rails g model ConfirmCode email:string code:string confirmed_at:datetime
+
+이후에 코드와 이메일의 고유성을 위해
+
+~~~c
+add_index :confirm_codes, :email
+~~~
+
+를 추가해주고
+
+> rake db:migrate
+
+이후에 ConfirmCode.rb에 코드를 아래와 같이 구성해주었습니다.
+
+~~~c
+class ConfirmCode < ApplicationRecord
+  validate :exist_user_email! // 이미 가입한 유저인지 확인
+
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i  // 이메일 문자열 검사
+  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }  // 이메일 validate
+
+
+  def exist_user_email! // 이미 가입한 유저인지 확인
+    if User.find_by(email: email).present?
+      errors.add(:email, :exist_user)
+      puts "이미 존재하는 유저입니다."
+    end
+  end
+
+  def self.gen_code(email) // 인증코드를 생성해주는 부분
+    confirm_code = self.find_or_create_by(email: email)
+    if confirm_code.update(code: rand(1000...9999))  // 1000~9999 중 랜덤하게 (코드는 임의로 더 복잡하게 바꿀수도 있습니다)
+      UserMailer.generate_code(confirm_code).deliver_now  // 유저에게 이메일로 코드를 보내주는 부분 (이미 구현 되어있다 가정)
+      return {result: true, code: 0, message: "가입할 수 있는 이메일 주소입니다. \r\n 인증 메일에 안내 받은 초대코드를 넣어주세요."}
+    else
+      if confirm_code.errors.details[:email].first.values.include?(:invalid)
+        return {result: false, code: 1, message: "유효하지 않은 이메일입니다. \r\n 다시 확인해주세요."}
+      elsif confirm_code.errors.details[:email].first.values.include?(:exist_user)
+        return {result: false, code: 2, message: "기존에 가입한 이메일입니다. \r\n 다시 확인해주세요."}
+      end
+    end
+
+  end
+
+  def check_code(received_code) // 입력 된 인증코드와 실제 발급 된 인증코드가 일치하는지 확인
+    if code == received_code
+      self.update!(confirm_at: Time.now)
+      return {result: true, message: "인증되었습니다."}
+    else
+      return {result: false, message: "인증 실패하셨습니다. 메일을 재확인해주세요."}
+    end
+  end
+end
+~~~
+
+그리고 User.rb 에서 아래와 같이 메서드를 만들어줍니다.
+ 
+~~~c
+  def self.gen_code(email) // User 이메일을 통해 인증코드를 생성해주는 메서드
+    result = ConfirmCode.gen_code(email)
+    return result
+  end
+
+  def self.check_code(email, code) // User 이메일과 코드를 통해 인증코드를 확인해주는 메서드
+    confirm_code = ConfirmCode.find_by(email: email)
+    result = confirm_code.check_code(code)
+
+    return result
+  end
+~~~
+
+그리고 인증코드 생성 및 확인을 처리해줄 주소를 만들어줍니다.
+
+~~~c
+  devise_scope :user do
+    get 'users/confirm_code' => "users/confirmations#confirm_code"
+    get 'users/check_code' => "users/confirmations#check_code"
+  end
+~~~
+
+그리고 users/confirmations controller 에 정의를 해줍니다.
+
+~~~c
+  def confirm_code // 생성된 코드를 json 으로 던져준다
+    @code = User.gen_code(params[:email])
+    render json: @code
+  end
+
+  def check_code // 이메일과 코드로 인증코드를 검사 후 결과를 json 으로 던져준다
+    email = params[:email]
+    code = params[:code]
+    puts code
+    @checked = User.check_code(email, code)
+    render json: @checked
+  end
+~~~
+
+이후에 js처리를 해줍니다.
+
+~~~c
+  $("#confirm_code").on("click", function(e){
+    if($("#confirm_code").data("send") == true){  // 이미 코드를 발송한 경우
+      e.preventDefault();
+      alert("이미 인증메일을 전송했습니다.", "clnk");
+    }else{
+      $.get('/users/confirm_code', { email: $("#user_email").val() }, function (data) {
+        data_hash = JSON.parse(data); // 받아온 json 파싱 해시처리
+        if(data_hash["result"] == true){ // 인증코드가 성공적으로 발송 된 경우
+          $("#user_email").attr('readonly', 'readonly'); // 이메일 변경 못하게
+          $("#confirm_code").attr('data-send', 'true');  // 이미 코드 전송했다고 처리
+          alert(data_hash["message"], "이메일 인증");
+        }else if(data_hash["result"] == false){
+          alert(data_hash["message"], "이메일 인증");
+        }
+      });
+    }
+  })
+~~~
+
+이렇게 이메일 발송기능이 구현 되어있다면, 인증 코드를 발급하는 것을 구현하실 수 있습니다.
+
+ 
 ---
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
