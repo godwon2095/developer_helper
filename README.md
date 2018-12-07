@@ -1,6 +1,7 @@
 # 레일즈 개발 및 액티브어드민 개발 헬퍼
 
 * <a href="#email_confirm_code">이메일 인증코드로 회원가입 구현하기</a>
+* <a href="#user_registration_process">회원가입 프로세스 구현하기</a>
 * <a href="#active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</a>
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
 * <a href="#js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</a>
@@ -152,7 +153,59 @@ end
 <br><br>
 이렇게 이메일 발송기능이 구현 되어있다면, 간단하게 인증 코드를 발급 및 인증 을 구현하실 수 있습니다.<br><br>
 
- 
+---
+
+<h2 id="user_registration_process">회원가입 프로세스 구현하기</h2>
+
+처음 회원가입 시 몇몇 과정을 거쳐야 가입되는 (특정 프로세스를 거쳐야만하는) 경우가 있습니다. <br><br>
+
+이런 경우에는 회원가입 이후에 해당 주소로 redirect 되게 처리를 해주어야하는데요 <br><br>
+
+해당 처리를 해주기 위해서는 devise 의 controller를 건드려야 하기 때문에 아래 명령어를 실행해줍니다.
+
+>rails generate devise:controllers users
+
+<br><br>
+
+routes.rb에서 설정도 해줍니다.
+
+~~~c
+  devise_for :users, controllers: {
+  :registrations => "users/registrations"
+ }
+~~~
+
+그리고 users/registrations_controller.rb에 아래의 코드를 이용하여 회원가입 이후 url을 설정해줄 수 있습니다.
+
+~~~c
+  protected
+  def after_sign_up_path_for(resource)
+    url // 리다이렉트 시킬 url 입력
+  end
+~~~
+<br><br>
+
+직접 회원가입 프로세스를 추가하고싶다면 먼저 주소를 만들어줍니다.
+
+~~~c
+  devise_scope :user do
+    get 'users/after_regis_step' => "users/registrations#after_regis_step"
+  end
+~~~
+
+마찬가지로 users 에 뷰파일을 after_regis_step.html.erb 로 만드시고 원하시는 프로세스 만들어서 작업하시면 됩니다!!<br><br>
+
+그런데 프로세스가 여러개인 경우, 특정 프로세스는 필수인 경우가 있습니다.
+
+이런경우에 뷰에서만 처리하는 경우가 있는데, 뷰에서 처리뿐 아니라 컨트롤러에서도 해당 필수처리를 해주시는것이 좋습니다!!
+
+~~~c
+if params[:info].nil?
+  redirect_back(fallback_location: root_path, notice: "필수정보는 반드시 입력하셔야 합니다.")
+~~~
+
+이처럼 뷰와 컨트롤러 이중으로 회원가입 프로세스의 필수여부등도 간단하게 구현하실 수 있습니다.      
+
 ---
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
