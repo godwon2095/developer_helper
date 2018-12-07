@@ -38,7 +38,6 @@
 ~~~c
 add_index :confirm_codes, :email
 ~~~
-<br><br>
 를 추가해주고<br><br>
 
 > rake db:migrate
