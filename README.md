@@ -2,6 +2,7 @@
 
 * <a href="#email_confirm_code">이메일 인증코드로 회원가입 구현하기</a>
 * <a href="#user_registration_process">회원가입 프로세스 구현하기</a>
+* <a href="#current_user_json">모델 관련 데이터 json화 및 사용</a>
 * <a href="#active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</a>
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
 * <a href="#js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</a>
@@ -205,6 +206,43 @@ if params[:info].nil?
 ~~~
 
 이처럼 뷰와 컨트롤러 이중으로 회원가입 프로세스의 필수여부등도 간단하게 구현하실 수 있습니다.      
+
+---
+
+<h2 id="current_user_json">모델 관련된 데이터 json화 및 사용</h2>
+
+User 모델을 예시로 들겠습니다.
+
+~~~c
+user = User.first
+user.to_json
+# => {"id": 1, "name": "seong won", "age": 24, "created_at": "2018/12/7"}
+~~~
+
+이렇식으로 json화가 된다는 것은 아주 간단한 사실 입니다.
+
+하지만 이를 필요에 따라 매우 다양하게 활용할 수 있습니다.
+
+특정 값만 json화 하고싶은 경우
+~~~c
+user = User.first
+user.to_json(:only => [:id, :name])
+# => {"id": 1, "name": "seong won"}
+~~~
+
+특정 값을 제외하고 json화 하고싶은 경우
+~~~c
+user = User.first
+user.to_json(:except => [:id, :age, :created_at])
+# => {"name": "seong won", "age": 24}
+~~~
+
+모델에 구현해 놓은 메서드를 이용하여 json화 하고싶은 경우
+~~~c
+user = User.first
+user.to_json(:methods => :posts)
+# => {"id": 1, "name": "seong won", "age": 24, "created_at": "2018/12/7", "posts": ...}
+~~~
 
 ---
 
