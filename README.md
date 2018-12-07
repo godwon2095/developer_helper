@@ -272,6 +272,44 @@ user.to_json(:include => { :posts => {
 
 해당 자료를 더 자세히 알고싶다면 링크 참조 https://apidock.com/rails/ActiveRecord/Serialization/to_json
 
+그러면 이제부터 어떻게 json화 한 데이터를 활용하면 좋은지에 대해 이야기하겠습니다. <br><br>
+
+예를들어 특정 페이지에서 현재 유저의 데이터와 브라우저의 데이터를 비교하여 그 결과를 다르게 해주는경우가 대표적입니다.<br><br>
+
+더 상세한 예를들어 특정유저가 sns계정을 연동하지 않으면 특정 버튼을 누르지 못하게 하는 코드를 짜보겠습니다.<br><br>
+
+먼저 application.html.erb에 current_user를 json화 하여 변수에 담아줍니다.
+
+~~~c
+<script type="text/javascript">
+  var currentUser = <%= raw current_user.to_json %>
+</script>
+~~~
+
+<br><br>
+
+그리고 특정 페이지에서 버튼을 만들어 줍니다.
+~~~c
+<button type="button" id="button">Click</button>
+~~~
+
+<br><br>
+
+그리고 js파일에 jquery 코드를 짜줍니다.
+
+~~~c
+$('#button').on('click', function(e){
+  if (currentUser.sns_info == null){
+    e.preventDefault();
+    alert("sns 계정을 연동해주세요!");
+   }
+ });
+~~~
+
+<br><br>
+
+이런식으로 사용하실 수 있습니다. 상당히 복잡한 구조도 hash화를 잘 하고 비교코드를 잘 짜준다면 성능이 좋은 서비스를 만드실 수 있을듯합니다!!
+
 ---
 
 <h2 id="active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</h2>
