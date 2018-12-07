@@ -352,6 +352,9 @@ TinyMCERails.configuration.default = {
   plugins: "link,uploadimage"
 };
 TinyMCERails.initialize('default', {
+  relative_urls : false,             /// 어드민 페이지에서 가끔 발생하는
+  remove_script_host : false,        /// 상대 url을 해결해주는
+  convert_urls : true,               /// 코드입니다
 });
 ~~~
 
