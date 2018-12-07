@@ -13,11 +13,11 @@
 
 <h2 id="email_confirm_code">이메일 인증코드로 회원가입 구현하기</h2>
 
-이메일 인증에 있어서, 특정 인증코드를 발송해주고 해당번호를 입력해야만 정상정으로 서비스를 이용할 수 있게하는 기능입니다.
+이메일 인증에 있어서, 특정 인증코드를 발송해주고 해당번호를 입력해야만 정상정으로 서비스를 이용할 수 있게하는 기능입니다.<br><br>
 
-일단 devise에 이메일 인증 기능은 구현되어있다는 가정하에 
+일단 devise에 이메일 인증 기능은 구현되어있다는 가정하에 <br><br>
 
-먼저 간단하게 이메일 인증하기 버튼과 인증번호를 받을 수 있는 폼을 만들어 줍니다.
+먼저 간단하게 이메일 인증하기 버튼과 인증번호를 받을 수 있는 폼을 만들어 줍니다.<br><br>
 
 ~~~c
 <%= f.email_field :email %>
@@ -26,22 +26,25 @@
 
 <input type="text" id="user_code" value="" placeholder="인증번호">
 ~~~
+<br><br>
 
-그리고 인증코드를 관리해줄 테이블을 생성해주도록합니다.
+그리고 인증코드를 관리해줄 테이블을 생성해주도록합니다.<br><br>
 
 > rails g model ConfirmCode email:string code:string confirmed_at:datetime
+<br><br>
 
-이후에 코드와 이메일의 고유성을 위해
+이후에 코드와 이메일의 고유성을 위해<br><br>
 
 ~~~c
 add_index :confirm_codes, :email
 ~~~
-
-를 추가해주고
+<br><br>
+를 추가해주고<br><br>
 
 > rake db:migrate
+<br><br>
 
-이후에 ConfirmCode.rb에 코드를 아래와 같이 구성해주었습니다.
+이후에 ConfirmCode.rb에 코드를 아래와 같이 구성해주었습니다.<br><br>
 
 ~~~c
 class ConfirmCode < ApplicationRecord
@@ -99,8 +102,8 @@ end
     return result
   end
 ~~~
-
-그리고 인증코드 생성 및 확인을 처리해줄 주소를 만들어줍니다.
+<br><br>
+그리고 인증코드 생성 및 확인을 처리해줄 주소를 만들어줍니다.<br><br>
 
 ~~~c
   devise_scope :user do
@@ -108,8 +111,8 @@ end
     get 'users/check_code' => "users/confirmations#check_code"
   end
 ~~~
-
-그리고 users/confirmations controller 에 정의를 해줍니다.
+<br><br>
+그리고 users/confirmations controller 에 정의를 해줍니다.<br><br>
 
 ~~~c
   def confirm_code // 생성된 코드를 json 으로 던져준다
@@ -125,8 +128,8 @@ end
     render json: @checked
   end
 ~~~
-
-이후에 js처리를 해줍니다.
+<br><br>
+이후에 js처리를 해줍니다.<br><br>
 
 ~~~c
   $("#confirm_code").on("click", function(e){
@@ -147,8 +150,8 @@ end
     }
   })
 ~~~
-
-이렇게 이메일 발송기능이 구현 되어있다면, 인증 코드를 발급하는 것을 구현하실 수 있습니다.
+<br><br>
+이렇게 이메일 발송기능이 구현 되어있다면, 간단하게 인증 코드를 발급 및 인증 을 구현하실 수 있습니다.<br><br>
 
  
 ---
