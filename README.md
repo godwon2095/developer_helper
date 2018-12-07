@@ -221,7 +221,7 @@ user.to_json
 
 이렇식으로 json화가 된다는 것은 아주 간단한 사실 입니다.
 
-하지만 이를 필요에 따라 매우 다양하게 활용할 수 있습니다.
+하지만 이를 필요에 따라 매우 다양하게 활용할 수 있습니다.<br><br>
 
 특정 값만 json화 하고싶은 경우
 ~~~c
@@ -230,6 +230,8 @@ user.to_json(:only => [:id, :name])
 # => {"id": 1, "name": "seong won"}
 ~~~
 
+<br><br>
+
 특정 값을 제외하고 json화 하고싶은 경우
 ~~~c
 user = User.first
@@ -237,12 +239,38 @@ user.to_json(:except => [:id, :age, :created_at])
 # => {"name": "seong won", "age": 24}
 ~~~
 
+<br><br>
+
 모델에 구현해 놓은 메서드를 이용하여 json화 하고싶은 경우
+
 ~~~c
 user = User.first
-user.to_json(:methods => :posts)
-# => {"id": 1, "name": "seong won", "age": 24, "created_at": "2018/12/7", "posts": ...}
+user.to_json(:methods => :user_method)
+# => {"id": 1, "name": "seong won", "age": 24, "created_at": "2018/12/7", "user_method": ...}
 ~~~
+
+<br><br>
+
+모델과 관계있는 테이블을 include 하여 json화 하고싶은 경우
+
+~~~c
+user = User.first
+user.to_json(:include => :posts)
+# => {"id": 1, "name": "seong won", "age": 24, "created_at": "2018/12/7", "posts":[{"id": 1, "author_id": 1, "title": "Welcome to the weblog"}, {"id": 2, author_id: 1, "title": "So I was thinking"}]}
+~~~
+
+~~~c
+user = User.first
+user.to_json(:include => { :posts => {
+                                 :include => { :comments => {
+                                               :only => :body } },
+                                 :only => :title } })
+# => {"id": 1, "name": "seong won", "age": 24, "created_at": "2018/12/7", "posts":[{"comments": [{"body": "1st post!"}, {"body": "Second!"}], "title": "Welcome to the weblog"}, {"comments": [{"body": "Don't think too hard"}], "title": "So I was thinking"}]}
+~~~
+
+<br>
+
+해당 자료를 더 자세히 알고싶다면 링크 참조 https://apidock.com/rails/ActiveRecord/Serialization/to_json
 
 ---
 
