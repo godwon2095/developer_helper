@@ -3,6 +3,7 @@
 * <a href="#email_confirm_code">이메일 인증코드로 회원가입 구현하기</a>
 * <a href="#user_registration_process">회원가입 프로세스 구현하기</a>
 * <a href="#current_user_json">모델 관련 데이터 json화 및 사용</a>
+* <a href="#new_record?">form_for 나 액티브어드민 form에서 new, edit 구분화하기</a>
 * <a href="#active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</a>
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
 * <a href="#js_city_state">액티브어드민 배치액션 폼에서 city-state js로 구현하기</a>
@@ -309,6 +310,22 @@ $('#button').on('click', function(e){
 <br><br>
 
 이런식으로 사용하실 수 있습니다. 상당히 복잡한 구조도 hash화를 잘 하고 비교코드를 잘 짜준다면 성능이 좋은 서비스를 만드실 수 있을듯합니다!!
+
+---
+
+<h2 id="new_record?">form_for 나 액티브어드민 form에서 new, edit 구분화하기</h2>
+
+form_for 를 사용할 때 혹은 액티브어드민에서 form을 작성할 때
+
+새로쓴 글(new)인지 혹은 수정(edit)하는지 여부에 따라서 그 form 양식을 달리해줄 수 있는 메서드가 있습니다.
+
+만약 새로운 작성(new)이라면 password를 추가해준다고 가정하면 아래처럼 작성하실 수 있습니다.
+
+~~~c
+f.object.new_record?
+  f.input :password
+end
+~~~
 
 ---
 
