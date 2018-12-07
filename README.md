@@ -17,7 +17,7 @@
 
 일단 devise에 이메일 인증 기능은 구현되어있다는 가정하에 <br><br>
 
-먼저 간단하게 이메일 인증하기 버튼과 인증번호를 받을 수 있는 폼을 만들어 줍니다.<br><br>
+먼저 간단하게 이메일 인증하기 버튼과 인증번호를 받을 수 있는 폼을 만들어 줍니다.
 
 ~~~c
 <%= f.email_field :email %>
@@ -28,12 +28,12 @@
 ~~~
 <br><br>
 
-그리고 인증코드를 관리해줄 테이블을 생성해주도록합니다.<br><br>
+그리고 인증코드를 관리해줄 테이블을 생성해주도록합니다.
 
 > rails g model ConfirmCode email:string code:string confirmed_at:datetime
 <br><br>
 
-이후에 코드와 이메일의 고유성을 위해<br><br>
+이후에 코드와 이메일의 고유성을 위해
 
 ~~~c
 add_index :confirm_codes, :email
@@ -44,7 +44,7 @@ add_index :confirm_codes, :email
 > rake db:migrate
 <br><br>
 
-이후에 ConfirmCode.rb에 코드를 아래와 같이 구성해주었습니다.<br><br>
+이후에 ConfirmCode.rb에 코드를 아래와 같이 구성해주었습니다.
 
 ~~~c
 class ConfirmCode < ApplicationRecord
@@ -103,7 +103,7 @@ end
   end
 ~~~
 <br><br>
-그리고 인증코드 생성 및 확인을 처리해줄 주소를 만들어줍니다.<br><br>
+그리고 인증코드 생성 및 확인을 처리해줄 주소를 만들어줍니다.
 
 ~~~c
   devise_scope :user do
@@ -112,7 +112,7 @@ end
   end
 ~~~
 <br><br>
-그리고 users/confirmations controller 에 정의를 해줍니다.<br><br>
+그리고 users/confirmations controller 에 정의를 해줍니다.
 
 ~~~c
   def confirm_code // 생성된 코드를 json 으로 던져준다
@@ -129,7 +129,7 @@ end
   end
 ~~~
 <br><br>
-이후에 js처리를 해줍니다.<br><br>
+이후에 js처리를 해줍니다.
 
 ~~~c
   $("#confirm_code").on("click", function(e){
