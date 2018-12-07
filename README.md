@@ -1,4 +1,4 @@
-# 개발자 헬퍼
+# 레일즈 개발 및 액티브어드민 개발 헬퍼
 
 * <a href="#active_admin_user_list">액티브어드민 리스트 원하는 개수 정렬</a>
 * <a href="#active_admin_select_download">액티브어드민 선택한 항목만 CSV 다운로드 하기</a>
