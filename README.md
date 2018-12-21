@@ -12,6 +12,7 @@
 * <a href="#ransack">액티브 어드민에서 ransack 으로 필터 자유자재로 구현하기</a>
 * <a href="#tinymce">액티브 어드민에서 tinymce (wysiwyg editor) 이미지 업로드 까지 구현하기</a>
 * <a href="#active_admin_materialize">액티브 어드민 머터리얼 테마 적용하기</a>
+* <a href="#active_admin_reordable">act_as_list 와 어드민 reordable 구현하기</a>
 
 ---
 
@@ -780,3 +781,109 @@ other colors
 그리고 css를 추가적으로 변경하고 싶으시다면 아래의 링크를 참조해주세요!!
 
 http://code.viget.com/active_material/docs/api/
+
+---
+
+<h2 id="active_admin_reordable">act_as_list 와 어드민 reordable 구현하기</h2>
+
+![reordable](https://user-images.githubusercontent.com/37841168/50332066-56948600-0544-11e9-8c92-a9876133cef7.gif)
+
+이렇게 특정 데이터들을 수시로 혹은 가끔가다 순서를 바꿔줘야하는 경우에는 이를 간단하고 ux 적으로 훌륭하게 처리하는 방법이 있습니다.
+
+먼저 act_as_list gem 을 소개해 드리겠습니다. 참고: https://github.com/vigetlabs/activeadmin_reorderable
+
+~~~c
+gem 'acts_as_list'
+~~~
+
+~~~c
+gem install acts_as_list
+~~~
+
+그리고 재정렬을 시킬 모델에 position 컬럼을 추가해줍니다.
+
+~~~c
+rails g migration AddPositionToTodoItem position:integer
+rake db:migrate
+~~~
+
+이렇게 해주시면 이제부터는 act_as_list 메소드를 모델에서 사용하실 수 있습니다.
+
+~~~c
+class TodoList < ActiveRecord::Base
+  has_many :todo_items, -> { order(position: :asc) }
+end
+
+class TodoItem < ActiveRecord::Base
+  belongs_to :todo_list
+  acts_as_list scope: :todo_list
+end
+~~~
+
+이렇게 예제와 같이 설정을 해주시면 TodoList 모델에 속한 TotoItem 들을 정렬할 수 있는 다양한 메소들를 사용하실 수 있습니다.
+
+~~~c
+todo_list = TodoList.find(...)
+todo_list.todo_items.first.move_to_bottom
+todo_list.todo_items.last.move_higher
+~~~
+
+더 다양한 메소드는 도큐를 직접 살펴보시면 찾아보실 수 있습니다!
+
+그리고 이를 액티브 어드민에 적용하고 젬을이용하여 reordable을 구현해보겠습니다.
+
+먼저 activeadmin_reorderable 젬을 설치해줍니다.
+
+~~~c
+gem 'activeadmin_reorderable'
+bundle
+~~~
+
+이후에 app/assets/javascripts/active_admin.js 에
+
+~~~c
+//= require activeadmin_reorderable
+~~~
+
+그리고 app/assets/stylesheets/active_admin.css.scss 에
+
+~~~c
+@import "activeadmin_reorderable";
+~~~
+
+를 해줍니다.
+
+그리고 해당 admin rb 위의 예시대로 작성하면 TodoItems.rb 에
+
+~~~c
+  config.sort_order = 'position_asc'
+  config.paginate   = false
+
+  reorderable
+
+  index as: :reorderable_table do
+    selectable_column
+    id_column
+     ...
+  end
+~~~
+
+이런식으로 코드를 작성해주시면 됩니다.
+
+하지만 이렇게 구현을 다해도 문제가 하나 발생 할 것입니다.
+
+바로 어드민 페이지에서 ajax 요청을 보낼 때 CSRF 토큰이 헤더에 포함이 안돼있다고 콘솔에 오류가 뜰 것입니다.
+
+이를 해결해주기위해 admin.js 파일에 아래의 코드를 삽입해주시면 됩니다.
+
+~~~c
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    }
+  }); 
+~~~
+
+이렇게 작성하시고 동작해보시면 잘 되는 것을 확인하실 수 있을겁니다.
+
+---
