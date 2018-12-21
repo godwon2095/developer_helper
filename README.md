@@ -11,6 +11,7 @@
 * <a href="#imageviewer">js로 이미지 뷰어 (확대 가능)</a>
 * <a href="#ransack">액티브 어드민에서 ransack 으로 필터 자유자재로 구현하기</a>
 * <a href="#tinymce">액티브 어드민에서 tinymce (wysiwyg editor) 이미지 업로드 까지 구현하기</a>
+* <a href="#active_admin_materialize">액티브 어드민 머터리얼 테마 적용하기</a>
 
 ---
 
@@ -727,3 +728,51 @@ end
 ~~~
 
 이렇게 하시면 완벽하게 액티브어드민에 tinymce editor를 삽입 할 수 있습니다.
+
+---
+
+<h2 id="active_admin_materialize">액티브 어드민 머터리얼 테마 적용하기</h2>
+
+액티브 어드민에는 다양한 테마가 존재하는데요. 그 중에서도 보기 좋은 테마 하나를 추천해 드리려고 합니다.
+
+![image](https://user-images.githubusercontent.com/37841168/50331104-e3d5db80-0540-11e9-8a32-d599ce66317b.png)
+
+'클링크' 고객사에 실제 적용해 준 테마인데요. UI가 깔끔해서 애용하고 있습니다.
+
+적용 방법은 먼저 activeadmin-addons 이라는 젬을 설치하셔야 합니다.
+
+참고 : https://github.com/platanus/activeadmin_addons
+
+~~~c
+gem 'activeadmin_addons'
+~~~
+
+~~~c
+rails g activeadmin_addons:install
+~~~
+
+이렇게 activeadmin_addons 를 셋팅하시면 액티브어드민에서 다양한 기능을 활용할 수 있습니다.
+
+그리고 도큐의 밑부분에 테마관련 이야기가 있는데요 (링크 : https://github.com/platanus/activeadmin_addons#themes-1 )
+
+여기서 설명과 같이 셋팅을 해주시면 됩니다.
+
+~~~c
+rails g activeadmin_addons:install --theme material
+~~~
+
+이후에
+
+~~~c
+$am-theme-primary: YOUR-COLOR;
+...
+other colors
+...
+@import 'activeadmin_addons/material';
+~~~
+
+내용을 추가해 주시면 됩니다.
+
+적용 후 어드민 페이지로 들어가보면 이렇게 보기 좋은 로그인 화면과 함께 테마가 변경되어있을 것입니다.
+
+![image](https://user-images.githubusercontent.com/37841168/50331479-25b35180-0542-11e9-9994-c162ae2d321f.png)
