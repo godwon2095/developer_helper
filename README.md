@@ -775,7 +775,7 @@ other colors
 
 적용 후 어드민 페이지로 들어가보면 이렇게 보기 좋은 로그인 화면과 함께 테마가 변경되어있을 것입니다.
 
-![image](https://user-images.githubusercontent.com/37841168/50331479-25b35180-0542-11e9-9994-c162ae2d321f.png)
+![image](https://user-images.githubusercontent.com/37841168/50331667-d7528280-0542-11e9-92c8-30d00a8bb088.png)
 
 그리고 css를 추가적으로 변경하고 싶으시다면 아래의 링크를 참조해주세요!!
 
