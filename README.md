@@ -735,9 +735,9 @@ end
 
 액티브 어드민에는 다양한 테마가 존재하는데요. 그 중에서도 보기 좋은 테마 하나를 추천해 드리려고 합니다.
 
-![image](https://user-images.githubusercontent.com/37841168/50331104-e3d5db80-0540-11e9-8a32-d599ce66317b.png)
+![image](https://user-images.githubusercontent.com/37841168/50331623-a4a88a00-0542-11e9-88a2-b00a70341c58.png)
 
-'클링크' 고객사에 실제 적용해 준 테마인데요. UI가 깔끔해서 애용하고 있습니다.
+UI가 깔끔해서 애용하고 있습니다.
 
 적용 방법은 먼저 activeadmin-addons 이라는 젬을 설치하셔야 합니다.
 
@@ -776,3 +776,7 @@ other colors
 적용 후 어드민 페이지로 들어가보면 이렇게 보기 좋은 로그인 화면과 함께 테마가 변경되어있을 것입니다.
 
 ![image](https://user-images.githubusercontent.com/37841168/50331479-25b35180-0542-11e9-9994-c162ae2d321f.png)
+
+그리고 css를 추가적으로 변경하고 싶으시다면 아래의 링크를 참조해주세요!!
+
+http://code.viget.com/active_material/docs/api/
